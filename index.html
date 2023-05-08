@@ -1,0 +1,66 @@
+<style>
+.article-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+@media (max-width: 767px) {
+  .article-container {
+    display: block;
+  }
+  
+  .article-container article {
+    width: 100% !important;
+  }
+}
+
+.article-container article {
+  width: 32%;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  box-sizing: border-box;
+  border-radius: 20px;
+  background-color: white;
+}
+
+.article-container h3 {
+  font-size: 20px;
+  margin-top: 0;
+}
+
+.article-container p {
+  font-size: 16px;
+  margin-bottom: 0;
+}
+
+.article-container img {
+  height: 250px;
+  width: 100%;
+  object-fit: cover;
+  margin: 0px 0px 10px 0px;
+  border-radius: 20px 20px 0px 0px;
+}
+</style>
+<div class="article-container" id="article-container"></div>
+
+<script>
+const url = 'https://britonascimento.adv.br/blog/'; // Substitua com a URL da página desejada
+fetch(url)
+  .then(response => response.text())
+  .then(html => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, "text/html");
+    const articles = doc.querySelectorAll("article");
+    const firstThreeArticles = [...articles].slice(0, 3);
+    firstThreeArticles.forEach(article => {
+      const title = article.querySelector("h2").textContent;
+      const content = article.querySelector("p").textContent;
+      const img = article.querySelector("img").getAttribute("src");
+      const link = article.querySelector("a").href; 
+      const articleEl = document.createElement("article");
+      articleEl.innerHTML = `<a href="${link}"><img src="${img}"></img><h3>${title}</h3></a><p>${content}</p>`;
+      document.getElementById("article-container").appendChild(articleEl);
+    });
+  });
+</script>
