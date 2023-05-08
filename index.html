@@ -46,7 +46,7 @@
 
 <script>
 const url = 'https://britonascimento.adv.br/blog/'; // Substitua com a URL da página desejada
-fetch(url)
+fetch(url, {mode: 'no-cors'})
   .then(response => response.text())
   .then(html => {
     const parser = new DOMParser();
